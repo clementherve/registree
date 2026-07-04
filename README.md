@@ -2,7 +2,7 @@
 
 A lightweight web UI for browsing and managing a self-hosted Docker Registry v2 (`registry:2`): repositories, tags, manifest details, and tag deletion.
 
-<img src="docs/screenshot.png">
+<img src="docs/screenshot.jpg">
 
 ## Features
 
