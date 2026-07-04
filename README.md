@@ -1,59 +1,54 @@
 # Registree
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.4.
+A lightweight web UI for browsing and managing a self-hosted Docker Registry v2 (`registry:2`): repositories, tags, manifest details, and tag deletion.
 
-## Development server
+![screenshot](docs/screenshot.png)
+<!-- Add a screenshot at docs/screenshot.png -->
 
-To start a local development server, run:
+## Features
 
-```bash
-ng serve
-```
+- Browse and filter repositories, with paginated "load more"
+- View tags per repository, and manifest details (digest, size, layers, image config)
+- Delete tags — warns when other tags share the same image digest
+- HTTP Basic auth login
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Getting started
 
 ```bash
-ng generate component component-name
+npm install
+npm start
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+The app runs at `http://localhost:4200`.
+
+## Configuration
+
+The app calls the registry API at the relative path set as `apiBasePath` in `src/environments/environment*.ts` (default `/v2`). It's designed to run same-origin behind a reverse proxy that forwards `/v2/*` to your actual registry, so no CORS setup is needed in production.
+
+For local development against a real registry, use the Angular dev-server proxy:
 
 ```bash
-ng generate --help
+ng serve --proxy-config proxy.conf.json
 ```
 
-## Building
+with a `proxy.conf.json` like:
 
-To build the project run:
+```json
+{
+  "/v2": {
+    "target": "http://localhost:5000",
+    "secure": false,
+    "changeOrigin": true
+  }
+}
+```
+
+## Testing
 
 ```bash
-ng build
+npm test
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Tech stack
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Angular 19 (standalone components, signals), plain CSS/SCSS — no UI framework.
