@@ -1,6 +1,6 @@
 # Registree
 
-A lightweight web UI for browsing and managing a self-hosted Docker Registry v2: repositories, tags, manifest details, and tag deletion.
+A lightweight web UI for browsing and managing a self-hosted Docker Registry v2 and v3: repositories, tags, manifest details, and tag deletion.
 
 <img src="docs/screenshot.jpg">
 

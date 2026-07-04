@@ -34,6 +34,19 @@ describe('RegistryApiService', () => {
     expect(result.next).toBe('b');
   });
 
+  it('reports no next page when the Link header is absent, regardless of how many items came back', () => {
+    // Registry v3 proxy mode clamps an oversized `n` instead of erroring, so a page can
+    // come back shorter than requested with no `Link` header — that alone must mean "last page".
+    let result: any;
+    service.listRepositories(50).subscribe((r) => (result = r));
+
+    const req = httpMock.expectOne((r) => r.url === `${environment.apiBasePath}/_catalog`);
+    req.flush({ repositories: ['a'] });
+
+    expect(result.items).toEqual([{ name: 'a' }]);
+    expect(result.next).toBeNull();
+  });
+
   it('maps a 404 on tags/list to an empty result instead of an error', () => {
     let result: any;
     service.listTags('my-repo', 50).subscribe((r) => (result = r));
