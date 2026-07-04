@@ -34,3 +34,14 @@ http:
     Access-Control-Allow-Headers: ["Authorization", "Accept"]
     Access-Control-Expose-Headers: ["Docker-Content-Digest", "Link"]
 ```
+
+### Serving under a sub-path
+
+To serve the UI at a path other than `/` (e.g. `registry.mysite.fr/ui`), set `REGISTRY_UI_URL` to that path. This assumes your reverse proxy strips the prefix before forwarding to this container (so it still receives plain `/`, `/repositories`, etc.):
+
+```bash
+docker run -p 8080:80 \
+  -e REGISTRY_URL=https://registry.example.com \
+  -e REGISTRY_UI_URL=/ui \
+  registree
+```

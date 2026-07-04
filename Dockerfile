@@ -24,6 +24,7 @@ COPY docker/docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 
 ENV REGISTRY_URL=http://registry:5000
+ENV REGISTRY_UI_URL=/
 
 EXPOSE 80
 
