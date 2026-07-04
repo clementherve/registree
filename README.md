@@ -7,8 +7,8 @@ A lightweight web UI for browsing and managing a self-hosted Docker Registry v2:
 ## Getting started
 
 ```bash
-npm install
-npm start
+pnpm install
+pnpm start
 ```
 
 The app runs at `http://localhost:4200`.
