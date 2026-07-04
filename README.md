@@ -19,13 +19,18 @@ Build the image:
 
 ```bash
 docker build -t registree .
+docker run -p 8080:80 -e REGISTRY_URL=https://registry.example.com registree
 ```
 
-Run it, pointing at your Docker Registry v2 API (no trailing slash, no `/v2` suffix):
+Note: the registry must send CORS
+headers, e.g. via the [Docker Registry `http.headers`
+config](https://distribution.github.io/distribution/about/configuration/#http) if the domain is different
 
-```bash
-docker run -p 8080:80 -e REGISTRY_URL=http://registry:5000 registree
+```yaml
+http:
+  headers:
+    Access-Control-Allow-Origin: ["http://localhost:8080"]
+    Access-Control-Allow-Methods: ["GET", "DELETE", "OPTIONS"]
+    Access-Control-Allow-Headers: ["Authorization", "Accept"]
+    Access-Control-Expose-Headers: ["Docker-Content-Digest", "Link"]
 ```
-
-Open `http://localhost:8080`. Requests to `/v2/*` are proxied to `REGISTRY_URL` at
-container startup, so the same image works against any registry without rebuilding.
