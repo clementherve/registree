@@ -1,0 +1,24 @@
+<div class="login-page">
+  <form class="login-card" (ngSubmit)="submit()">
+    <h1>Registree</h1>
+    <p class="subtitle">Sign in to your Docker registry</p>
+
+    @if (error()) {
+      <app-banner type="error" [message]="error()!" />
+    }
+
+    <label>
+      Username
+      <input type="text" name="username" [(ngModel)]="username" autocomplete="username" required />
+    </label>
+
+    <label>
+      Password
+      <input type="password" name="password" [(ngModel)]="password" autocomplete="current-password" required />
+    </label>
+
+    <button type="submit" class="btn btn-primary" [disabled]="submitting()">
+      {{ submitting() ? 'Connecting…' : 'Sign in' }}
+    </button>
+  </form>
+</div>

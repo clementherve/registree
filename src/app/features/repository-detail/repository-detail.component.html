@@ -1,0 +1,65 @@
+<div class="page">
+  <a routerLink="/repositories" class="back-link">&larr; Repositories</a>
+  <h1>{{ repositoryName }}</h1>
+
+  @if (error()) {
+    <app-banner type="error" [message]="error()!" />
+  }
+
+  @if (successMessage()) {
+    <app-banner type="success" [message]="successMessage()!" />
+  }
+
+  @if (loading() && tags().length === 0) {
+    <app-banner type="loading" message="Loading tags…" />
+  }
+
+  @if (!loading() && tags().length === 0 && !error()) {
+    <p class="empty">No tags found for this repository.</p>
+  }
+
+  @if (tags().length > 0) {
+    <table class="tag-table">
+      <thead>
+        <tr>
+          <th>Tag</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (tag of tags(); track tag.name) {
+          <tr>
+            <td>
+              <a [routerLink]="['tags', tag.name]">{{ tag.name }}</a>
+            </td>
+            <td class="actions">
+              <button type="button" class="btn btn-danger-outline" (click)="requestDelete(tag.name)">
+                Delete
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+
+  @if (nextCursor()) {
+    <button type="button" class="btn" [disabled]="loading()" (click)="loadMore()">
+      {{ loading() ? 'Loading…' : 'Load more' }}
+    </button>
+  }
+</div>
+
+@if (pendingDelete()) {
+  <app-confirm-dialog
+    title="Delete tag?"
+    [message]="
+      'Delete tag \'' + pendingDelete()!.tagName + '\'?\n\n' +
+      'This deletes the underlying image manifest. If other tags point to the same image content, they will be deleted too. Disk space is not freed until the registry runs garbage collection.'
+    "
+    confirmLabel="Delete"
+    [danger]="true"
+    (confirmed)="confirmDelete()"
+    (cancelled)="cancelDelete()"
+  />
+}

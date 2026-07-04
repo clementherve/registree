@@ -1,0 +1,73 @@
+<div class="page">
+  <a [routerLink]="['/repositories', repositoryName]" class="back-link">&larr; {{ repositoryName }}</a>
+  <h1>{{ tagName }}</h1>
+
+  @if (error()) {
+    <app-banner type="error" [message]="error()!" />
+  }
+
+  @if (loading()) {
+    <app-banner type="loading" message="Loading manifest…" />
+  }
+
+  @if (manifest(); as manifest) {
+    @if (manifest.kind === 'manifestList') {
+      <app-banner
+        type="info"
+        message="This tag is a multi-architecture manifest list. Drilling into individual platform manifests isn't supported yet."
+      />
+    }
+
+    <dl class="details">
+      <dt>Digest</dt>
+      <dd class="digest">{{ manifest.digest }}</dd>
+
+      <dt>Media type</dt>
+      <dd>{{ manifest.mediaType }}</dd>
+
+      @if (manifest.kind === 'manifest') {
+        <dt>Total size</dt>
+        <dd>{{ totalSize() | byteSize }}</dd>
+
+        <dt>Layers</dt>
+        <dd>{{ layerCount() }}</dd>
+      }
+
+      @if (imageConfig(); as config) {
+        <dt>Created</dt>
+        <dd>{{ config.created || '—' }}</dd>
+
+        <dt>Platform</dt>
+        <dd>{{ config.os }}/{{ config.architecture }}</dd>
+      }
+    </dl>
+
+    @if (manifest.kind === 'manifest' && manifest.layers.length > 0) {
+      <h2>Layers</h2>
+      <ul class="layer-list">
+        @for (layer of manifest.layers; track layer.digest) {
+          <li>
+            <span class="digest">{{ layer.digest }}</span>
+            <span>{{ layer.size | byteSize }}</span>
+          </li>
+        }
+      </ul>
+    }
+
+    <button type="button" class="btn btn-danger-outline" (click)="requestDelete()">Delete tag</button>
+  }
+</div>
+
+@if (confirmingDelete()) {
+  <app-confirm-dialog
+    title="Delete tag?"
+    [message]="
+      'Delete tag \'' + tagName + '\'?\n\n' +
+      'This deletes the underlying image manifest. If other tags point to the same image content, they will be deleted too. Disk space is not freed until the registry runs garbage collection.'
+    "
+    confirmLabel="Delete"
+    [danger]="true"
+    (confirmed)="confirmDelete()"
+    (cancelled)="cancelDelete()"
+  />
+}

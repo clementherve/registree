@@ -1,0 +1,39 @@
+<div class="page">
+  <h1>Repositories</h1>
+
+  <input
+    type="search"
+    class="search"
+    placeholder="Filter loaded repositories…"
+    [ngModel]="filterTerm()"
+    (ngModelChange)="filterTerm.set($event)"
+  />
+
+  @if (error()) {
+    <app-banner type="error" [message]="error()!" />
+  }
+
+  @if (loading() && repositories().length === 0) {
+    <app-banner type="loading" message="Loading repositories…" />
+  }
+
+  @if (!loading() && repositories().length === 0 && !error()) {
+    <p class="empty">No repositories found.</p>
+  }
+
+  @if (filteredRepositories().length > 0) {
+    <ul class="repo-list">
+      @for (repo of filteredRepositories(); track repo.name) {
+        <li>
+          <a [routerLink]="['/repositories', repo.name]">{{ repo.name }}</a>
+        </li>
+      }
+    </ul>
+  }
+
+  @if (nextCursor()) {
+    <button type="button" class="btn" [disabled]="loading()" (click)="loadMore()">
+      {{ loading() ? 'Loading…' : 'Load more' }}
+    </button>
+  }
+</div>
