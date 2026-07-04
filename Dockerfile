@@ -4,6 +4,7 @@
 FROM node:alpine3.23 AS build
 WORKDIR /app
 
+RUN npm install -g corepack@latest
 RUN corepack enable && corepack prepare pnpm@10.32.1 --activate
 
 COPY pnpm-lock.yaml package.json ./
@@ -18,6 +19,7 @@ FROM nginx:stable-alpine3.23 AS runtime
 COPY --from=build /app/dist/registree/browser /usr/share/nginx/html
 
 COPY docker/nginx.conf.template /etc/nginx/nginx.conf.template
+COPY docker/env.js.template /etc/nginx/env.js.template
 COPY docker/docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 

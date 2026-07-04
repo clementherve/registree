@@ -11,4 +11,8 @@ envsubst '${REGISTRY_URL}' \
   < /etc/nginx/nginx.conf.template \
   > /etc/nginx/conf.d/default.conf
 
+envsubst '${REGISTRY_URL}' \
+  < /etc/nginx/env.js.template \
+  > /usr/share/nginx/html/env.js
+
 exec nginx -g 'daemon off;'

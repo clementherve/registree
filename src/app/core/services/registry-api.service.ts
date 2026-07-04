@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable, catchError, from, map, of, switchMap } from 'rxjs';
 
-import { environment } from '../../../environments/environment';
+import { getApiBasePath } from './api-base.util';
 import { PaginatedResult, Repository } from '../models/repository.model';
 import { Tag } from '../models/tag.model';
 import { ManifestList, ManifestListEntry, ManifestV2 } from '../models/manifest.model';
@@ -43,7 +43,7 @@ interface ManifestListResponse {
 @Injectable({ providedIn: 'root' })
 export class RegistryApiService {
   private readonly http = inject(HttpClient);
-  private readonly base = environment.apiBasePath;
+  private readonly base = getApiBasePath();
 
   ping(): Observable<void> {
     return this.http.get<void>(`${this.base}/`);
