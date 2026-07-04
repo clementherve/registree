@@ -1,6 +1,12 @@
 <div class="page">
-  <a [routerLink]="['/repositories', repositoryName]" class="back-link">&larr; {{ repositoryName }}</a>
-  <h1>{{ tagName }}</h1>
+  <a [routerLink]="['/repositories', repositoryName]" class="back-link">
+    <mat-icon>arrow_back</mat-icon>
+    {{ repositoryName }}
+  </a>
+  <div class="title-row">
+    <h1 class="title-mono">{{ tagName }}</h1>
+    <app-copy-button [value]="tagName" label="Copy tag name" />
+  </div>
 
   @if (error()) {
     <app-banner type="error" [message]="error()!" />
@@ -18,43 +24,53 @@
       />
     }
 
-    <dl class="details">
-      <dt>Digest</dt>
-      <dd class="digest">{{ manifest.digest }}</dd>
+    <div class="card">
+      <dl class="details">
+        <dt>Digest</dt>
+        <dd class="digest-row">
+          <span class="digest">{{ manifest.digest }}</span>
+          <app-copy-button [value]="manifest.digest" label="Copy digest" />
+        </dd>
 
-      <dt>Media type</dt>
-      <dd>{{ manifest.mediaType }}</dd>
+        <dt>Media type</dt>
+        <dd>{{ manifest.mediaType }}</dd>
 
-      @if (manifest.kind === 'manifest') {
-        <dt>Total size</dt>
-        <dd>{{ totalSize() | byteSize }}</dd>
+        @if (manifest.kind === 'manifest') {
+          <dt>Total size</dt>
+          <dd>{{ totalSize() | byteSize }}</dd>
 
-        <dt>Layers</dt>
-        <dd>{{ layerCount() }}</dd>
-      }
+          <dt>Layers</dt>
+          <dd>{{ layerCount() }}</dd>
+        }
 
-      @if (imageConfig(); as config) {
-        <dt>Created</dt>
-        <dd>{{ config.created || '—' }}</dd>
+        @if (imageConfig(); as config) {
+          <dt>Created</dt>
+          <dd>{{ config.created || '—' }}</dd>
 
-        <dt>Platform</dt>
-        <dd>{{ config.os }}/{{ config.architecture }}</dd>
-      }
-    </dl>
+          <dt>Platform</dt>
+          <dd class="platform">{{ config.os }}/{{ config.architecture }}</dd>
+        }
+      </dl>
+    </div>
 
     @if (manifest.kind === 'manifest' && manifest.layers.length > 0) {
       <h2>Layers</h2>
       <ul class="layer-list">
-        @for (layer of manifest.layers; track layer.digest) {
+        @for (layer of manifest.layers; track layer.digest; let i = $index) {
           <li>
+            <span class="layer-index">{{ i + 1 }}</span>
             <span class="digest">{{ layer.digest }}</span>
-            <span>{{ layer.size | byteSize }}</span>
+            <app-copy-button [value]="layer.digest" label="Copy layer digest" />
+            <span class="layer-size">{{ layer.size | byteSize }}</span>
           </li>
         }
       </ul>
     }
 
-    <button type="button" class="btn btn-danger-outline" (click)="requestDelete()">Delete tag</button>
+    <button type="button" class="btn btn-danger-outline delete-btn" (click)="requestDelete()">
+      <mat-icon>delete_outline</mat-icon>
+      Delete tag
+    </button>
   }
 </div>
 

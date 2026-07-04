@@ -1,3 +1,14 @@
 <div class="banner" [class]="type">
-  {{ message }}
+  @if (type === 'loading') {
+    <mat-progress-spinner class="icon" diameter="18" strokeWidth="2.5" mode="indeterminate" />
+  } @else {
+    <mat-icon class="icon">
+      @switch (type) {
+        @case ('error') { error }
+        @case ('success') { check_circle }
+        @case ('info') { info }
+      }
+    </mat-icon>
+  }
+  <span>{{ message }}</span>
 </div>

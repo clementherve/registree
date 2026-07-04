@@ -1,13 +1,16 @@
 <div class="page">
   <h1>Repositories</h1>
 
-  <input
-    type="search"
-    class="search"
-    placeholder="Filter loaded repositories…"
-    [ngModel]="filterTerm()"
-    (ngModelChange)="filterTerm.set($event)"
-  />
+  <div class="search-wrap">
+    <mat-icon class="search-icon">search</mat-icon>
+    <input
+      type="search"
+      class="search"
+      placeholder="Filter loaded repositories…"
+      [ngModel]="filterTerm()"
+      (ngModelChange)="filterTerm.set($event)"
+    />
+  </div>
 
   @if (error()) {
     <app-banner type="error" [message]="error()!" />
@@ -18,21 +21,30 @@
   }
 
   @if (!loading() && repositories().length === 0 && !error()) {
-    <p class="empty">No repositories found.</p>
+    <div class="empty-state">
+      <mat-icon>inventory_2</mat-icon>
+      <p>No repositories found.</p>
+    </div>
   }
 
   @if (filteredRepositories().length > 0) {
-    <ul class="repo-list">
+    <ul class="repo-grid">
       @for (repo of filteredRepositories(); track repo.name) {
         <li>
-          <a [routerLink]="['/repositories', repo.name]">{{ repo.name }}</a>
+          <a [routerLink]="['/repositories', repo.name]" class="repo-card">
+            <span class="repo-icon">
+              <mat-icon>inventory_2</mat-icon>
+            </span>
+            <span class="repo-name">{{ repo.name }}</span>
+            <mat-icon class="chevron">chevron_right</mat-icon>
+          </a>
         </li>
       }
     </ul>
   }
 
   @if (nextCursor()) {
-    <button type="button" class="btn" [disabled]="loading()" (click)="loadMore()">
+    <button type="button" class="btn load-more" [disabled]="loading()" (click)="loadMore()">
       {{ loading() ? 'Loading…' : 'Load more' }}
     </button>
   }

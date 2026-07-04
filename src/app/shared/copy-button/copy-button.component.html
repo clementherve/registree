@@ -1,0 +1,11 @@
+<button
+  type="button"
+  mat-icon-button
+  class="copy-button"
+  [class.copied]="copied()"
+  [matTooltip]="copied() ? 'Copied!' : label"
+  [attr.aria-label]="label"
+  (click)="copy($event)"
+>
+  <mat-icon>{{ copied() ? 'check' : 'content_copy' }}</mat-icon>
+</button>

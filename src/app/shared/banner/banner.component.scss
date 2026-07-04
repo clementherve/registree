@@ -1,25 +1,26 @@
 .banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
   padding: var(--space-3) var(--space-4);
   border-radius: var(--radius);
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   margin-bottom: var(--space-4);
+  animation: fade-in var(--transition);
 
   &.error {
-    background: color-mix(in srgb, var(--color-danger) 12%, transparent);
+    background: var(--color-danger-soft);
     color: var(--color-danger);
-    border: 1px solid color-mix(in srgb, var(--color-danger) 30%, transparent);
   }
 
   &.info {
-    background: color-mix(in srgb, var(--color-primary) 12%, transparent);
-    color: var(--color-primary);
-    border: 1px solid color-mix(in srgb, var(--color-primary) 30%, transparent);
+    background: var(--color-info-soft);
+    color: var(--color-info);
   }
 
   &.success {
-    background: color-mix(in srgb, var(--color-success) 12%, transparent);
+    background: var(--color-success-soft);
     color: var(--color-success);
-    border: 1px solid color-mix(in srgb, var(--color-success) 30%, transparent);
   }
 
   &.loading {
@@ -27,4 +28,16 @@
     color: var(--color-text-muted);
     border: 1px solid var(--color-border);
   }
+}
+
+.icon {
+  flex-shrink: 0;
+  color: inherit;
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+mat-progress-spinner.icon {
+  --mdc-circular-progress-active-indicator-color: currentColor;
 }

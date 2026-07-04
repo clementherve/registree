@@ -3,25 +3,37 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-bg);
+  position: relative;
+  background:
+    radial-gradient(circle at 15% 15%, var(--color-primary-soft), transparent 45%),
+    radial-gradient(circle at 85% 85%, var(--color-primary-soft), transparent 45%),
+    var(--color-bg);
+}
+
+.theme-toggle {
+  position: fixed;
+  top: var(--space-4);
+  right: var(--space-4);
 }
 
 .login-card {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
   padding: var(--space-6);
-  width: 320px;
+  width: 340px;
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
+  animation: fade-in var(--transition);
 
   h1 {
     margin: 0;
   }
 
   .subtitle {
-    margin: 0;
+    margin: 0 0 var(--space-2);
     color: var(--color-text-muted);
     font-size: 0.9rem;
   }
@@ -32,12 +44,45 @@
     gap: var(--space-1);
     font-size: 0.85rem;
     color: var(--color-text-muted);
+    font-weight: 500;
   }
 
   input {
     padding: var(--space-2) var(--space-3);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius);
-    font-size: 1rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+    font-family: inherit;
+    background: var(--color-surface);
+    color: var(--color-text);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px var(--color-primary-soft);
+    }
+  }
+
+  .btn-primary {
+    margin-top: var(--space-2);
+    padding-top: var(--space-3);
+    padding-bottom: var(--space-3);
+  }
+}
+
+.brand-mark {
+  display: inline-flex;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+
+  svg {
+    width: 22px;
+    height: 22px;
   }
 }

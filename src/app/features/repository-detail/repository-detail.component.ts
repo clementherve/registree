@@ -1,16 +1,18 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { MatIcon } from '@angular/material/icon';
 
 import { RegistryApiService } from '../../core/services/registry-api.service';
 import { Tag } from '../../core/models/tag.model';
 import { BannerComponent } from '../../shared/banner/banner.component';
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
+import { CopyButtonComponent } from '../../shared/copy-button/copy-button.component';
 
 const PAGE_SIZE = 50;
 
 @Component({
   selector: 'app-repository-detail',
-  imports: [RouterLink, BannerComponent, ConfirmDialogComponent],
+  imports: [RouterLink, BannerComponent, ConfirmDialogComponent, MatIcon, CopyButtonComponent],
   templateUrl: './repository-detail.component.html',
   styleUrl: './repository-detail.component.scss'
 })

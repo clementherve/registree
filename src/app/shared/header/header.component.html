@@ -1,8 +1,31 @@
 <header class="app-header">
-  <a routerLink="/repositories" class="title">Registree</a>
+  <a routerLink="/repositories" class="brand">
+    <span class="brand-mark">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="3" y="3" width="7" height="7" rx="2" fill="currentColor" opacity="0.9" />
+        <rect x="14" y="3" width="7" height="7" rx="2" fill="currentColor" opacity="0.55" />
+        <rect x="3" y="14" width="7" height="7" rx="2" fill="currentColor" opacity="0.55" />
+        <rect x="14" y="14" width="7" height="7" rx="2" fill="currentColor" opacity="0.9" />
+      </svg>
+    </span>
+    <span class="brand-name">Registree</span>
+  </a>
+
   <div class="status">
     <span class="dot"></span>
     Connected
   </div>
+
+  <button
+    type="button"
+    mat-icon-button
+    class="theme-toggle"
+    (click)="themeService.toggle()"
+    [matTooltip]="themeService.theme() === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'"
+    [attr.aria-label]="themeService.theme() === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'"
+  >
+    <mat-icon>{{ themeService.theme() === 'dark' ? 'light_mode' : 'dark_mode' }}</mat-icon>
+  </button>
+
   <button type="button" class="btn" (click)="logout()">Log out</button>
 </header>

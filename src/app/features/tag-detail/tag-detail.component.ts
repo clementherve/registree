@@ -1,5 +1,6 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { MatIcon } from '@angular/material/icon';
 
 import { RegistryApiService } from '../../core/services/registry-api.service';
 import { ManifestList, ManifestV2 } from '../../core/models/manifest.model';
@@ -7,10 +8,11 @@ import { ImageConfig } from '../../core/models/image-config.model';
 import { BannerComponent } from '../../shared/banner/banner.component';
 import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 import { ByteSizePipe } from '../../shared/pipes/byte-size.pipe';
+import { CopyButtonComponent } from '../../shared/copy-button/copy-button.component';
 
 @Component({
   selector: 'app-tag-detail',
-  imports: [RouterLink, BannerComponent, ConfirmDialogComponent, ByteSizePipe],
+  imports: [RouterLink, BannerComponent, ConfirmDialogComponent, ByteSizePipe, MatIcon, CopyButtonComponent],
   templateUrl: './tag-detail.component.html',
   styleUrl: './tag-detail.component.scss'
 })

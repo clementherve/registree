@@ -1,14 +1,18 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
 
 import { AuthService } from '../../core/services/auth.service';
 import { RegistryApiService } from '../../core/services/registry-api.service';
+import { ThemeService } from '../../core/services/theme.service';
 import { BannerComponent } from '../../shared/banner/banner.component';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule, BannerComponent],
+  imports: [FormsModule, BannerComponent, MatIconButton, MatIcon, MatTooltip],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -16,6 +20,7 @@ export class LoginComponent {
   private readonly authService = inject(AuthService);
   private readonly registryApi = inject(RegistryApiService);
   private readonly router = inject(Router);
+  protected readonly themeService = inject(ThemeService);
 
   username = '';
   password = '';
